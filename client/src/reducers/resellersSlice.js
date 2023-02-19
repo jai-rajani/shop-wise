@@ -6,6 +6,7 @@ export const resellersSlice = createSlice({
     value: [],
     finalValue:[],
     search:'',
+    sort:'',
   },
   reducers: {
   
@@ -17,12 +18,15 @@ export const resellersSlice = createSlice({
     },
     modify_search:(state,action)=>{
       state.search=action.payload
+    },
+    modify_sort:(state,action)=>{
+      state.sort=action.payload
     }
     
   },
 })
 
 
-export const {modify,modify_final,modify_search} = resellersSlice.actions
+export const {modify,modify_final,modify_search,modify_sort} = resellersSlice.actions
 
 export default resellersSlice.reducer

@@ -7,9 +7,10 @@ const getSneakers=async(req,res)=>{
 
     //pagination for infinite scrolling
     let page = req.query.page??1;
-    let limit = 60;
+    let limit = 30;
 
     let query={}
+    let sort={'AddedDate':-1}
 
     //filter for resller site
     if(req.query.reseller!=undefined) {
@@ -27,7 +28,7 @@ const getSneakers=async(req,res)=>{
     //search for product
     if(req.query.search!=undefined){
         if(req.query.search!=''){
-            let search=req.query.search
+            let search=req.query.search.replaceAll("'","")
             let query2={}
             let query3={}
             query2['Description']={'$regex':search,'$options':'i'}
@@ -36,9 +37,28 @@ const getSneakers=async(req,res)=>{
         }
     }
 
+    //sort for product
+    if(req.query.sort!=undefined){
+        if(req.query.sort!=''){
+            console.log('sort s thus ',req.query.sort)
+            switch(req.query.sort){
+                case 'asc':{
+                    sort={'CurrentPrice':1}
+                    break;
+                }
+                case 'desc':{
+                    sort={'CurrentPrice':-1}
+                    break;
+                }
+            }
+
+        }
+    }
+
     //send request
     console.log('query is ',query)
-    const sneakers=await Sneaker.find(query).skip((page * limit) - limit).limit(limit)
+    console.log('sort type is ',sort)
+    const sneakers=await Sneaker.find(query).sort(sort).skip((page * limit) - limit).limit(limit)
     res.status(200).json(sneakers)
     
 }

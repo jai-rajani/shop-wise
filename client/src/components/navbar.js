@@ -12,7 +12,7 @@ function Navbar(){
     return(
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" style={{paddingLeft:'2%'}}>
-        <a class="navbar-brand" href=""> <span class="navbar-brand mb-0 h1">Shop Wise</span></a>
+        <a class="navbar-brand" href="/"> <span class="navbar-brand mb-0 h1">Shop Wise</span></a>
  
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">

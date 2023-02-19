@@ -1,5 +1,24 @@
+import { useNavigate } from "react-router-dom"
 
-function Sneakerbox({img_url,desc,price,title,product_url}){
+function Sneakerbox({img_url,desc,price,title,product_url,pricehistory,store}){
+    const navigation=useNavigate()
+    
+
+    function SneakerDetail(){
+
+        //navigate to details
+        navigation('/sneaker',{
+            state:{
+                img_url:img_url,
+                desc:desc,
+                price:price,
+                title:title,
+                product_url:product_url,
+                pricehistory:pricehistory,
+                store:store
+            }
+        })
+    }
     return(
         <div style={{flexDirection:'column',flex:1,borderWidth:1,borderColor:'black',alignItems:'center',justifyContent:"center"}}>
             <div style={{flex:2}}>
@@ -7,7 +26,7 @@ function Sneakerbox({img_url,desc,price,title,product_url}){
             </div>
 
             <div style={{flex:0.5,fontSize:10}}>
-                <a href={product_url} class='h6' style={{textDecoration: 'none'}}> {title}</a>
+                <a onClick={SneakerDetail} class='h6' style={{textDecoration: 'none'}}> {title}</a>
                
             </div>
 

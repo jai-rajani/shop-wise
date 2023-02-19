@@ -7,6 +7,7 @@ import axios from 'axios';
 import Filters from "./Filters";
 import { useSelector } from "react-redux";
 import Searchbar from "../components/searchbar";
+import Sort from "../components/Sort";
 
 function Home(){
 const [sneakers,setSneakers]=useState([])
@@ -18,16 +19,18 @@ const [filters,setFilters]=useState('');
 
 const resellers=useSelector((state)=>state.resellers.finalValue);
 const search=useSelector((state)=>state.resellers.search);
-//console.log('main filters are ',resellers)
+const sort=useSelector((state)=>state.resellers.sort);
+console.log('main sort are ',sort)
 
 
   const handleChange = () => {
     setChecked(!checked);
   };
 
-
-const fetchSneakers = async () => {
+  //fetch intial data
+  const fetchSneakers = async () => {
     
+    //configure url
     let str='';
     
     for(let i=0;i<resellers.length;i++){
@@ -39,6 +42,9 @@ const fetchSneakers = async () => {
     url=url.concat(str)
     if(search!=''){
         url=url.concat('&search='+search);
+    }
+    if(sort!=''){
+        url=url.concat('&sort='+sort)
     }
     console.log('url is',url)
     const response = await fetch(url)
@@ -52,6 +58,7 @@ const fetchSneakers = async () => {
     }
   }
 
+  //fetch more data
   const fetchMore = async () => {
 
     let str='';
@@ -61,10 +68,13 @@ const fetchSneakers = async () => {
 
     }
     //console.log('query request is',str)
-    let url='/api/sneakers?page=1';
+    let url=`/api/sneakers?page=${page}`;
     url=url.concat(str)
     if(search!=''){
         url=url.concat('&search='+search);
+    }
+    if(sort!=''){
+        url=url.concat('&sort='+sort)
     }
     console.log('url is',url)
     const res = await fetch(url);
@@ -72,6 +82,7 @@ const fetchSneakers = async () => {
     return data;
   };
 
+  //call fetch more data
   const fetchData = async () => {
     const moreSneakers = await fetchMore();
 
@@ -85,7 +96,7 @@ const fetchSneakers = async () => {
 
 useEffect(()=>{
       fetchSneakers()
-},[resellers,search])
+},[resellers,search,sort])
 
 
 
@@ -95,12 +106,15 @@ return(
         
      <div class="row row-cols-1">
      
-     <div class="col-1" style={{}}>
-       <Filters/>
+     <div class="col-2">
+
+        <div class="row-1"> <Sort/></div>
+       
+        <div class="row"><Filters/></div>
 
     </div>
 
-    <div class="col-11" style={{}}>
+    <div class="col-10" style={{}}>
 
     <div class="row" style={{marginTop:'2%',marginBottom:'2%'}}>
     
@@ -140,7 +154,7 @@ return(
             return (
             
             <div className="col border border-light box" key={item.id}>
-            <Sneakerbox key={item.id}  img_url={item['Image Url']} price={item["CurrentPrice"]} desc={item["Description"]} title={item['Title']} product_url={item["Product Url"]}/>
+            <Sneakerbox key={item.id}  img_url={item['Image Url']} price={item["CurrentPrice"]} desc={item["Description"]} title={item['Title']} product_url={item["Product Url"]} pricehistory={item['PriceHistory']} store={item['Store']}/>
            </div>
             );
             
