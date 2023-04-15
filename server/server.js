@@ -1,6 +1,7 @@
 const express=require('express')
 require('dotenv').config();
 var bodyParser = require('body-parser')
+const dotenv=require('dotenv')
 
 const app=express()
 const mongoose=require('mongoose')
@@ -11,6 +12,9 @@ app.use(express.urlencoded({extended:true}));
 app.use(express.static("public"));
 
 
+dotenv.config();                                       
+const MONGO_URI = process.env.MONGO_URI;
+
 
 app.get('/',(req,res)=>{
    console.log(req.body)
@@ -19,7 +23,7 @@ app.get('/',(req,res)=>{
 
 app.use('/api/sneakers',sneakerRoutes)
 
-mongoose.connect('mongodb+srv://jairajani:jairajani@shopwise.6twmxrd.mongodb.net/ShopWIse?retryWrites=true&w=majority')
+mongoose.connect(MONGO_URI)
     .then(()=>{
         
     app.listen(process.env.PORT,()=>{

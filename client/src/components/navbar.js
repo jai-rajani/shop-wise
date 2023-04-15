@@ -41,6 +41,18 @@ function Navbar(){
           </span>
         </a>
       </li>
+
+      
+      <li class="nav-item">
+        <a class="nav-link"  onClick={()=>{handleClick('Yeezy')}}>
+          <span class="navbar-text">
+            Login
+          </span>
+        </a>
+      </li>
+
+
+
       
     </ul>
    

@@ -1,6 +1,8 @@
 const { query } = require('express');
 const mongoose=require('mongoose')
+const dotenv = require('dotenv');
 const Sneaker = require('../models/Sneaker')
+
 
 const getSneakers=async(req,res)=>{
     try{

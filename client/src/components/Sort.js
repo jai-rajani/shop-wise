@@ -43,7 +43,7 @@ function Sort(){
     <div class='main'>
         
         <div class='header'>
-            sort
+            Sort
         </div>
 
         <div class="form-check">

@@ -102,7 +102,7 @@ useEffect(()=>{
 
 
 return(
-    <div class="container-fluid" style={{paddingTop:'5%'}}>
+    <div class="container-fluid">
         
      <div class="row row-cols-1">
      
