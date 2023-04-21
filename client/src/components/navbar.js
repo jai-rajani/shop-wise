@@ -44,7 +44,7 @@ function Navbar(){
 
       
       <li class="nav-item">
-        <a class="nav-link"  onClick={()=>{handleClick('Yeezy')}}>
+        <a class="nav-link" href="/login">
           <span class="navbar-text">
             Login
           </span>
