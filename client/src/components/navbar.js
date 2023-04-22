@@ -1,14 +1,25 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { modify_search } from "../reducers/resellersSlice";
+import { authLogout } from "../reducers/authReducer";
 
 function Navbar(){
   const dispatch=useDispatch();
+
+  const logged_in=useSelector((state)=>state.auth.login);
+  const user=useSelector((state)=>state.auth.user);
 
   function handleClick(search){
     dispatch(modify_search(search))
 
 
   };
+
+  function logOut(){
+    console.log('clicked')
+    localStorage.clear();
+    
+    dispatch(authLogout());
+}
     return(
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" style={{paddingLeft:'2%'}}>
@@ -44,12 +55,30 @@ function Navbar(){
 
       
       <li class="nav-item">
+        {!logged_in?
         <a class="nav-link" href="/login">
           <span class="navbar-text">
             Login
           </span>
         </a>
+        :
+        <a class="nav-link" href="/profile">
+          <span class="navbar-text">
+            Profile
+          </span>
+        </a>}
       </li>
+
+      {logged_in?
+      <>
+      <li class="nav-item">
+        <a class="nav-link"  onClick={()=>{logOut()}}>
+          <span class="navbar-text">
+            LogOut
+          </span>
+        </a>
+      </li></>
+      :<></>}
 
 
 

@@ -1,6 +1,7 @@
 const bcryptjs = require("bcryptjs");
 const User = require("../models/User");
 const generateJWT = require("../helpers/jwt");
+const Sneaker = require("../models/Sneaker");
 
 const createUser = async (req, res) => {
     console.log(req.body)
@@ -79,7 +80,54 @@ const createUser = async (req, res) => {
   };
 
 
+  //add sneaker to user collection
+  const addSneaker=async(req,res)=>{
+    const {url,email,price,date}=req.body
+    let query={ProductUrl:url}
+    console.log(query)
+    try{
+
+    const sneaker=await Sneaker.findOne(query);
+    console.log(sneaker)
+   
+    let user_sneaker=await User.findOne({email:email,'sneakers':{$elemMatch:{sneakerID:sneaker._id}}})
+    console.log(user_sneaker)
+    if(!user_sneaker){
+
+        try{
+        await User.findOneAndUpdate({email:email},{$push:{'sneakers':{sneakerPrice:(price),sneakerDate:date,sneakerID:sneaker._id,sneakerURL:url}}});
+        return res.status(200).json({
+          ok:true,
+          msg:'added sneaker'
+      })
+
+        }
+        catch(error){
+          console.log(error);
+          return res.status(500).json({
+            ok: false,
+            msg: "Please, contact the administrator",
+          });
+        }
+  }
+  else{
+    return res.status(500).json({
+      ok:false,
+      msg:'Sneaker already added'
+    })
+  }
+  }
+  catch(error){
+    console.log(error);
+      return res.status(500).json({
+        ok: false,
+        msg: "Please, contact the administrator",
+      });
+
+  }}
 
 
 
-module.exports = {createUser,loginUser};
+
+
+module.exports = {createUser,loginUser,addSneaker};

@@ -154,7 +154,7 @@ return(
             return (
             
             <div className="col border border-light box" key={item.id}>
-            <Sneakerbox key={item.id}  img_url={item['Image Url']} price={item["CurrentPrice"]} desc={item["Description"]} title={item['Title']} product_url={item["Product Url"]} pricehistory={item['PriceHistory']} store={item['Store']}/>
+            <Sneakerbox key={item.id}  img_url={item['ImageUrl']} price={item["CurrentPrice"]} desc={item["Description"]} title={item['Title']} product_url={item["ProductUrl"]} pricehistory={item['PriceHistory']} store={item['Store']}/>
            </div>
             );
             

@@ -16,6 +16,6 @@ const sneakerSchema=new Schema({
 
 },
 {
-    collection:'sneakers'
+    collection:'Sneakers'
 })
 module.exports=mongoose.model("Sneaker",sneakerSchema)

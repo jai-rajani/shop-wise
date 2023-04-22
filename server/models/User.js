@@ -18,6 +18,7 @@ const UserSchema = Schema({
     {
         sneakerPrice:Number,
         sneakerDate:Date,
+        sneakerURL:String,
         sneakerID:{type: Schema.Types.ObjectId, ref: 'sneakers'}
     }
   ]
