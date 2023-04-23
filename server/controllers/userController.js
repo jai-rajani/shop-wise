@@ -88,7 +88,7 @@ const createUser = async (req, res) => {
     try{
 
     const sneaker=await Sneaker.findOne(query);
-    console.log(sneaker)
+    //console.log(sneaker)
    
     let user_sneaker=await User.findOne({email:email,'sneakers':{$elemMatch:{sneakerID:sneaker._id}}})
     console.log(user_sneaker)
@@ -106,7 +106,7 @@ const createUser = async (req, res) => {
           console.log(error);
           return res.status(500).json({
             ok: false,
-            msg: "Please, contact the administrator",
+            msg: 'Couldnt update',
           });
         }
   }
@@ -121,13 +121,68 @@ const createUser = async (req, res) => {
     console.log(error);
       return res.status(500).json({
         ok: false,
-        msg: "Please, contact the administrator",
+        msg: "Could not find sneaker",
       });
 
   }}
 
+  //get sneakers from user
+  const getSneakers=async(req,res)=>{
+    const {email}=req.body;
+    try{
+    const user=await User.findOne({email:email});
+    return res.status(200).json({
+      ok:true,
+      sneakers:user.sneakers
+    })
+    }
+    catch(errors){
+      console.log(errors);
+      return res.status(500).json({
+        ok: false,
+        msg: "Please, contact the administrator",
+      });
+
+    }
+
+  }
+
+  //delete sneaker from list
+  const deleteSneaker=async(req,res)=>{
+    const {email,url}=req.body;
+
+
+
+    let user_sneaker=await User.findOne({email:email,'sneakers':{$elemMatch:{sneakerURL:url}}});
+    if(user_sneaker){
+      try{
+        await User.findOneAndUpdate({user_email:email},{$pull:{sneakers:{sneakerURL:url}}})
+        return res.status(200).json({
+          ok:true,
+          msg:'deleted',
+        })
+
+      }
+      catch(errors){
+          console.log(errors);
+        return res.status(500).json({
+          ok: false,
+          msg: "Please, contact the administrator",
+        });
+
+      }
+
+    }
+    else{
+      return res.status(500).json({
+        ok:false,
+        msg:"Sneaker doesnt exist",
+      })
+    }
+
+  }
 
 
 
 
-module.exports = {createUser,loginUser,addSneaker};
+module.exports = {createUser,loginUser,addSneaker,getSneakers,deleteSneaker};

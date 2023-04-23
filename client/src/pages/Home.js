@@ -147,7 +147,7 @@ return(
       useWindow={false}
     >
       <div
-      class="row row-cols-5"
+      class="row row-cols-lg-5 row-cols-sm-3 row-cols-md-4"
       >
         
           {sneakers.map((item) => {

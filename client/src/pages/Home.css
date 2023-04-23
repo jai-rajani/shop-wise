@@ -1,3 +1,10 @@
+@media (max-width: 1000px) {
+    .row-cols-5 {
+      --bs-cols: 3;
+    }
+  }
+  
+
 .container-sneaker {
     display: flex;
     flex:1;

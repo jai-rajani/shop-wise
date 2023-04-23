@@ -7,14 +7,18 @@ import SneakerDetail from './pages/SneakerDetail';
 import Login from './pages/Login';
 import Profile from './pages/Profile';
 import { useDispatch, useSelector } from 'react-redux';
-import { authLogin } from './reducers/authReducer';
+import { authLogin,addSneakers, setSneakers } from './reducers/authReducer';
 import { useEffect } from 'react';
 
 function App() {
   const logged_in=useSelector((state)=>state.auth.login);
-  console.log(logged_in)
+  const user=useSelector((state)=>state.auth.user);
+  const sneakers=useSelector((state)=>state.auth.sneakers);
+  console.log(user)
   const dispatch=useDispatch()
 
+
+  //check if logged in 
   useEffect(() => {
     const loggedInUser = localStorage.getItem("user");
     if (loggedInUser) {
@@ -22,6 +26,36 @@ function App() {
       dispatch(authLogin(JSON.parse(loggedInUser)))
     }
   }, [logged_in]);
+
+
+  //get users sneakers
+  useEffect(() => {
+    (async () => {
+      await fetch('/api/user/get', {
+        method:'POST',
+         headers: {
+           "Content-Type": "application/json",
+         },
+        body:JSON.stringify({email:user.email})
+       }).then((resp) =>(resp.json()))
+       .then((data) => {
+         
+        if (data.ok) {
+           console.log(data.sneakers)
+          
+           dispatch(setSneakers(data.sneakers))
+         }
+          else {
+           if (data.errors) console.log(data.errors);
+           
+         }
+       })
+    })();
+  
+    return () => {
+      // this now gets called when the component unmounts
+    };
+  }, [user]);
 
   return (
     <div className="App">

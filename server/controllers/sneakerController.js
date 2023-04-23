@@ -69,9 +69,26 @@ const getSneakers=async(req,res)=>{
     }
 }
 
+//get a single sneaker
+const getSneaker=async(req,res)=>{
+    const {url}=req.body;
+
+    try{
+        const sneaker=await Sneaker.findOne({ProductUrl:url})
+        return res.status(200).json(sneaker);
+    }
+    catch(errors){
+        return res.status(500).json({
+            ok:false,
+            msg:'Please conatct admin'
+        })
+    }
+
+}
+
 
 
 module.exports={
-    getSneakers,
+    getSneakers,getSneaker
     
 }

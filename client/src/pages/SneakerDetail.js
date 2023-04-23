@@ -2,11 +2,14 @@ import { useLocation } from "react-router-dom"
 import LineChart from "../components/linechart"
 import { Link } from 'react-router-dom';
 import PriceCard from "../components/PriceCard";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 
 
 function SneakerDetail(){
-    const location=useLocation()
+    const sneakers=useSelector((state)=>state.auth.sneakers);
+    const location=useLocation();
+    const dispatch=useDispatch();
     const item=location.state
     var pricehistory=item.pricehistory
     var time=[]
@@ -23,7 +26,18 @@ function SneakerDetail(){
     let sort_prices=prices.slice()
     sort_prices.sort()
     const user=useSelector((state)=>state.auth.user);
-    const date=new Date()
+    const date=new Date();
+
+    //check if sneaker is already in profle
+    const [tracked,setTracked]=useState(false);
+    console.log(tracked)
+    useEffect(()=>{
+        for(let i=0;i<sneakers.length;i++){
+            if(sneakers[i].sneakerURL==item.product_url){
+                setTracked(true);
+            }
+        }
+    },[]);
 
 
     //call api to add sneaker 
@@ -38,8 +52,33 @@ function SneakerDetail(){
            .then((data) => {
              
             if (data.ok) {
+               console.log('dta is ok',data)
+               setTracked(true)
                
-              console.log(data)
+              //dispatch(addSneaker(item.product_url))
+             }
+              else {
+               if (data.errors) console.log(data.msg);
+               
+             }
+           })
+        
+    }
+
+    //call api to delete sneakers
+    const deleteSneaker=async()=>{
+        await fetch('/api/user/delete', {
+            method:'POST',
+             headers: {
+               "Content-Type": "application/json",
+             },
+            body:JSON.stringify({email:user.email,url:item.product_url})
+           }).then((resp) =>(resp.json()))
+           .then((data) => {
+             
+            if (data.ok) {
+               console.log('deleted')
+              //dispatch(addSneaker(item.product_url))
              }
               else {
                if (data.errors) console.log(data.errors);
@@ -48,6 +87,7 @@ function SneakerDetail(){
            })
         
     }
+
      
 
     
@@ -82,7 +122,12 @@ function SneakerDetail(){
                     </div>
 
                     <div class='row'>
+                        {!tracked?
                         <button type="button" class="btn btn-primary" onClick={()=>{addSneaker()}}>Add to Track List</button>
+                        :
+                        <button type="button" class="btn btn-primary" onClick={()=>{deleteSneaker()}}>Remove from Track List</button>
+                        }
+                        
                     </div>
                 </div>
 

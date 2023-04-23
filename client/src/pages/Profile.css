@@ -1,0 +1,6 @@
+@media (max-width: 768px) {
+    .row-cols-5 {
+      --bs-cols: 3;
+    }
+  }
+  
