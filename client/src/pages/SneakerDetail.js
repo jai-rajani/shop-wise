@@ -4,10 +4,12 @@ import { Link } from 'react-router-dom';
 import PriceCard from "../components/PriceCard";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import { addSneakers, setSneakers } from "../reducers/authReducer";
 
 
 function SneakerDetail(){
     const sneakers=useSelector((state)=>state.auth.sneakers);
+    console.log(sneakers)
     const location=useLocation();
     const dispatch=useDispatch();
     const item=location.state
@@ -30,14 +32,14 @@ function SneakerDetail(){
 
     //check if sneaker is already in profle
     const [tracked,setTracked]=useState(false);
-    console.log(tracked)
+    //console.log(tracked)
     useEffect(()=>{
         for(let i=0;i<sneakers.length;i++){
             if(sneakers[i].sneakerURL==item.product_url){
                 setTracked(true);
             }
         }
-    },[]);
+    },[sneakers]);
 
 
     //call api to add sneaker 
@@ -55,7 +57,7 @@ function SneakerDetail(){
                console.log('dta is ok',data)
                setTracked(true)
                
-              //dispatch(addSneaker(item.product_url))
+              dispatch(setSneakers(data.sneakers))
              }
               else {
                if (data.errors) console.log(data.msg);

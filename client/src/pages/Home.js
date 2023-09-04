@@ -9,6 +9,8 @@ import { useSelector } from "react-redux";
 import Searchbar from "../components/searchbar";
 import Sort from "../components/Sort";
 
+import CustomCarousel from "../components/Carousel";
+
 function Home(){
 const [sneakers,setSneakers]=useState([])
 const [loaded,setLoaded]=useState(0)
@@ -17,10 +19,11 @@ const [page, setpage] = useState(2);
 const [checked, setChecked] = useState(false);
 const [filters,setFilters]=useState('');
 
+
 const resellers=useSelector((state)=>state.resellers.finalValue);
 const search=useSelector((state)=>state.resellers.search);
 const sort=useSelector((state)=>state.resellers.sort);
-console.log('main sort are ',sort)
+
 
 
   const handleChange = () => {
@@ -105,6 +108,15 @@ return(
     <div class="container-fluid">
         
      <div class="row row-cols-1">
+
+    {sneakers.length>2?
+    <div style={{maxHeight:'50%'}}>
+      <CustomCarousel data={sneakers}/>
+    </div>
+    :
+    <></>
+  }
+
      
      <div class="col-2">
 

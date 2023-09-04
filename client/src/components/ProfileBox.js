@@ -5,7 +5,22 @@ const ProfileBox=({item})=>{
    
     const [data,setData]=useState();
 
-    const navigation=useNavigate()
+    const navigation=useNavigate();
+    let price_difference=0
+
+    if(data){
+      price_difference=item.sneakerPrice-data.CurrentPrice;
+      if(price_difference<0){
+        //profit
+      }
+      else if(price_difference>0){
+        //loss
+      }
+      else{
+        //same
+      }
+      
+    }
     
 
     function SneakerDetail(){
@@ -58,7 +73,17 @@ const ProfileBox=({item})=>{
         <div>
 
             {data?
-            <div style={{flexDirection:'column',flex:1,borderWidth:1,borderColor:'black',alignItems:'center',justifyContent:"center"}}>
+
+            
+            <div style={{flexDirection:'column',flex:1,borderWidth:4,borderColor:'black',alignItems:'center',justifyContent:"center"}}>
+            
+          
+            {price_difference!=0?
+
+            <div><p>₹  {price_difference}</p></div>
+            :
+            <></>}
+
             <div style={{flex:2}}>
                 <img src={data.ImageUrl} alt="sneaker pic" class='img-fluid'/>
             </div>

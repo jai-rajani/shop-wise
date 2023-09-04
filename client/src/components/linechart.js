@@ -5,7 +5,7 @@ import { Chart as ChartJS, LineElement, PointElement, LinearScale, Title } from 
 ChartJS.register(LineElement, PointElement, LinearScale, Title,CategoryScale);
 
 function LineChart({time,prices}) {
-    console.log(time)
+    //console.log(time)
     prices.push(0)
     
   return (

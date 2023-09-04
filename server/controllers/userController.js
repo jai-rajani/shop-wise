@@ -95,10 +95,11 @@ const createUser = async (req, res) => {
     if(!user_sneaker){
 
         try{
-        await User.findOneAndUpdate({email:email},{$push:{'sneakers':{sneakerPrice:(price),sneakerDate:date,sneakerID:sneaker._id,sneakerURL:url}}});
+        const user=await User.findOneAndUpdate({email:email},{$push:{'sneakers':{sneakerPrice:(price),sneakerDate:date,sneakerID:sneaker._id,sneakerURL:url}}});
         return res.status(200).json({
           ok:true,
-          msg:'added sneaker'
+          msg:'added sneaker',
+          sneakers:user.sneakers,
       })
 
         }
